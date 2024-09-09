@@ -1,0 +1,159 @@
+import { useParams } from "react-router-dom";
+import { Briefcase, MapPin } from "lucide-react";
+import Navigation from "@/components/shared/Navigation";
+import { Separator } from "@/components/ui/Separator";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+
+function JobPage() {
+  const jobs = [
+    {
+      _id: "xyz",
+      title: "Intern - Software Engineer",
+      type: "Full-time",
+      location: "Remote",
+      questions: [
+        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
+        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
+        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
+      ],
+    },
+    {
+      _id: "abc",
+      title: "Software Engineer",
+      type: "Full-time",
+      location: "Colombo, Sri Lanka",
+      questions: [
+        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
+        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
+        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
+      ],
+    },
+    {
+      _id: "123",
+      title: "Software Architect",
+      type: "Hybrid",
+      location: "Rajagiriya, Sri Lanka",
+      questions: [
+        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
+        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
+        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
+      ],
+    },
+  ];
+
+  const params = useParams();
+  const job = jobs.find((job) => job._id === params._id);
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    a1: "",
+    a2: "",
+    a3: "",
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+  };
+
+  return (
+    <main>
+      <div>
+        <h2>{job.title}</h2>
+        <div className="flex items-center gap-x-4 mt-4">
+          <div className="flex items-center gap-x-2">
+            <Briefcase />
+            <span>{job.type}</span>
+          </div>
+          <div className="flex items-center gap-x-2">
+            <MapPin />
+            <span>{job.location}</span>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 py-4">
+        <p>{job.description}</p>
+      </div>
+      <Separator />
+
+      <form className="py-8 flex flex-col gap-y-8" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-y-4">
+          <Label>Full Name</Label>
+          <Input
+            required
+            value={formData.fullName}
+            onChange={(event) =>
+              setFormData({ ...formData, fullName: event.target.value })
+            }
+          />
+        </div>
+
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job.questions[0]}</Label>
+            <Textarea
+              required
+              value={formData.a1}
+              onChange={(event) =>
+                setFormData({ ...formData, a1: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job.questions[1]}</Label>
+            <Textarea
+              required
+              value={formData.a2}
+              onChange={(event) =>
+                setFormData({ ...formData, a2: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div>
+          <div className="flex flex-col gap-y-4">
+            <Label>{job.questions[2]}</Label>
+            <Textarea
+              required
+              value={formData.a3}
+              onChange={(event) =>
+                setFormData({ ...formData, a3: event.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-x-4 items-center">
+          <Button type="submit" className="bg-card text-card-foreground w-fit">
+            Submit
+          </Button>
+          <Button
+            type="button"
+            onClick={() =>
+              setFormData({
+                fullName: "",
+                a1: "",
+                a2: "",
+                a3: "",
+              })
+            }
+            className="w-fit"
+            variant="outline"
+          >
+            Clear
+          </Button>
+        </div>
+      </form>
+    </main>
+  );
+}
+
+export default JobPage;
