@@ -1,52 +1,43 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { Briefcase, MapPin } from "lucide-react";
 import Navigation from "@/components/shared/Navigation";
 import { Separator } from "@/components/ui/Separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { getJobById } from "@/lib/api/jobs";
+import { createJobApplication } from "@/lib/api/jobApplication";
+import { useAuth } from "@clerk/clerk-react";
 
 function JobPage() {
-  const jobs = [
-    {
-      _id: "xyz",
-      title: "Intern - Software Engineer",
-      type: "Full-time",
-      location: "Remote",
-      questions: [
-        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
-        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
-        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
-      ],
-    },
-    {
-      _id: "abc",
-      title: "Software Engineer",
-      type: "Full-time",
-      location: "Colombo, Sri Lanka",
-      questions: [
-        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
-        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
-        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
-      ],
-    },
-    {
-      _id: "123",
-      title: "Software Architect",
-      type: "Hybrid",
-      location: "Rajagiriya, Sri Lanka",
-      questions: [
-        "Share your academic background and highlight key programming concepts you've mastered. How has your education shaped your current tech skill set ?",
-        "Describe your professional development, emphasizing any certifications obtained. How have these certifications enriched your technical abilities, and can you provide an example of their practical application ?",
-        "Discuss notable projects in your programming experience. What challenges did you face, and how did you apply your skills to overcome them? Highlight the technologies used and the impact of these projects on your overall growth as a prefessional ?",
-      ],
-    },
-  ];
+  const { isLoaded, isSignedIn, user } = useAuth();
+
+  const [job, setJob] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   const params = useParams();
-  const job = jobs.find((job) => job._id === params._id);
+  
+  useEffect(() => {
+    if (!params._id) {
+      return;
+    }
+
+    getJobById(params._id)
+      .then((job) => {
+        setJob(job);
+        setIsError(false);
+      })
+      .catch((err) => {
+        setIsError(true);
+        setError(err);
+      })
+      .finally(() => setIsLoading(false));
+  }, [params._id]);
+  
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -55,10 +46,26 @@ function JobPage() {
     a3: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    createJobApplication({
+      fullName: formData.fullName,
+      answers: [formData.a1, formData.a2, formData.a3],
+      jobId: job._id,
+    });
   };
+
+  if (!isSignedIn) {
+    return <Navigate to ="/sign-in" />;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <main>
