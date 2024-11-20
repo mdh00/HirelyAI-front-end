@@ -1,4 +1,4 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Briefcase, MapPin } from "lucide-react";
 import Navigation from "@/components/shared/Navigation";
 import { Separator } from "@/components/ui/Separator";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { getJobById } from "@/lib/api/jobs";
 import { createJobApplication } from "@/lib/api/jobApplication";
 import { useAuth } from "@clerk/clerk-react";
+import Swal from "sweetalert2";
 
 function JobPage() {
   const { isLoaded, isSignedIn, user } = useAuth();
@@ -20,7 +21,8 @@ function JobPage() {
   const [isError, setIsError] = useState(false);
 
   const params = useParams();
-  
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!params._id) {
       return;
@@ -37,7 +39,7 @@ function JobPage() {
       })
       .finally(() => setIsLoading(false));
   }, [params._id]);
-  
+
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -48,15 +50,44 @@ function JobPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    createJobApplication({
-      fullName: formData.fullName,
-      answers: [formData.a1, formData.a2, formData.a3],
-      jobId: job._id,
-    });
+    try {
+      createJobApplication({
+        fullName: formData.fullName,
+        answers: [formData.a1, formData.a2, formData.a3],
+        jobId: job._id,
+      });
+      // Show success toast
+      Swal.fire({
+        icon: 'success',
+        title: 'Application Submitted!',
+        text: 'Your job application has been submitted successfully.',
+        timer: 3000, 
+        showConfirmButton: false,
+      }).then(() => {
+        // Navigate to the home page after the toast is dismissed
+        navigate("/"); // Redirect to home page
+      });
+
+      setFormData({
+        fullName: "",
+        a1: "",
+        a2: "",
+        a3: "",
+      });
+
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Submission Failed',
+        text: error.message,
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
   };
 
   if (!isSignedIn) {
-    return <Navigate to ="/sign-in" />;
+    return <Navigate to="/sign-in" />;
   }
 
   if (isLoading) {

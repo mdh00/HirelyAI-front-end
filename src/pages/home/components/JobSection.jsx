@@ -1,4 +1,4 @@
-import JobCard from "./JobCard";
+import JobCard from "../../../components/shared/JobCard";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getJobs } from "@/lib/api/jobs";
@@ -47,7 +47,7 @@ function JobSection() {
       <div className="mt-4 flex flex-col gap-y-8">
         {jobs.map((job) => {
           return (
-            <JobCard key={job._id} job={job} />
+            <JobCard key={job._id} job={job} isAdmin={false} />
           );
         })}
       </div>

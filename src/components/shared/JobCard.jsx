@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 function JobCard(props) {
   return (
-    <Link to={`/job/${props.job._id}`}>
+    <Link to={props.isAdmin ? `/admin/job/${props.job._id}` : `/job/${props.job._id}`}>
       <Card>
         <CardHeader>
           <CardTitle>{props.job.title}</CardTitle>
