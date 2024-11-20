@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import JobApplicationCard from '@/components/shared/JobApplicationCard';
 import { Briefcase, MapPin } from "lucide-react";
-import { Separator } from '@radix-ui/react-separator';
+import { Separator } from "@/components/ui/Separator";
 import { getJobById } from '@/lib/api/jobs';
 import { getJobApplicationsForJob } from '@/lib/api/jobApplication';
 
