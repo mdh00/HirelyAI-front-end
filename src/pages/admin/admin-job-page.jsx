@@ -78,6 +78,7 @@ function AdminJobPage() {
             <div className="mt-4 py-4">
                 <p>{job?.description}</p>
             </div>
+            
             <Separator />
             <div className="py-8">
                 <h2>Job Applications</h2>
