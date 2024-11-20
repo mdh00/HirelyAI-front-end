@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import JobApplicationCard from '@/components/shared/JobApplicationCard';
 import { Briefcase, MapPin } from "lucide-react";
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@/components/ui/separator";
 import { getJobById } from '@/lib/api/jobs';
 import { getJobApplicationsForJob } from '@/lib/api/jobApplication';
 
@@ -78,7 +78,7 @@ function AdminJobPage() {
             <div className="mt-4 py-4">
                 <p>{job?.description}</p>
             </div>
-            
+
             <Separator />
             <div className="py-8">
                 <h2>Job Applications</h2>

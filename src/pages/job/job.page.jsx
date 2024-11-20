@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Briefcase, MapPin } from "lucide-react";
 import Navigation from "@/components/shared/Navigation";
-import { Separator } from "@/components/ui/Separator";
+import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
