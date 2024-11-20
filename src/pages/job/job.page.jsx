@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { Briefcase, MapPin } from "lucide-react";
 import Navigation from "@/components/shared/Navigation";
 import { Separator } from "@/components/ui/separator";
