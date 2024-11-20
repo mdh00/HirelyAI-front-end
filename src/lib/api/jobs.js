@@ -17,7 +17,7 @@ export const getJobs = async () => {
     //     });
     // };
   
-    const res = await fetch("http://localhost:8000/api/jobs", {
+    const res = await fetch("https://hirelyai-back-end.onrender.com/api/jobs", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export const getJobs = async () => {
   };
   
   export const getJobById = async (id) => {
-    const res = await fetch(`http://localhost:8000/api/jobs/${id}`, {
+    const res = await fetch(`https://hirelyai-back-end.onrender.com/api/jobs/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const getJobs = async () => {
   export const createJob = async (data) => {
     const token = await window.Clerk?.session?.getToken();
   
-    const res = await fetch("http://localhost:8000/api/jobs", {
+    const res = await fetch("https://hirelyai-back-end.onrender.com/api/jobs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
