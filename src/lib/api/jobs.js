@@ -55,7 +55,6 @@ export const getJobs = async () => {
         description: data.description,
         location: data.location,
         type: data.type,
-        questions: data.questions || [],
       }),
     });
     if (!res.ok) {

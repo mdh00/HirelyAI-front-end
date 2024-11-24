@@ -6,13 +6,13 @@
   :root {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --card: 69 100% 50%;
+    --card: 168.2,64.6%,53.5%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 69 100% 50%;
+    --primary: 168.2,64.6%,53.5%;
     --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 168,58.6%,43.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -48,7 +48,7 @@
   }
 
   .text-underlay-1 {
-    background: linear-gradient(98deg, #d9ff00 -9.47%, #00a49d 65.47%);
+    background: linear-gradient(98deg, #F39C12 -9.47%, #3cd5b7 65.47%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

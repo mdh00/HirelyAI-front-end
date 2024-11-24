@@ -56,7 +56,7 @@ function JobPage() {
         answers: [formData.a1, formData.a2, formData.a3],
         jobId: job._id,
       });
-      // Show success toast
+      
       Swal.fire({
         icon: 'success',
         title: 'Application Submitted!',
@@ -64,8 +64,7 @@ function JobPage() {
         timer: 3000, 
         showConfirmButton: false,
       }).then(() => {
-        // Navigate to the home page after the toast is dismissed
-        navigate("/"); // Redirect to home page
+        navigate("/");
       });
 
       setFormData({

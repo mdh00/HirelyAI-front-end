@@ -1,43 +1,76 @@
 import { useState } from "react";
-import { createJob } from "@/lib/api/jobs";  // Adjust the import path if needed
+import { createJob } from "@/lib/api/jobs";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function AdminJobCreatePage() {
   const [error, setError] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [jobType, setJobType] = useState("");
+  
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     title: "",
     description: "",
     type: "",
     location: "",
-    questions: [],
 
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    createJob({
-      title: form.title,
-      description: form.description,
-      type: form.type,
-      location: form.location,
-      questions: form.questions,
-    })
+    try {
+      const response = await createJob({
+        title: form.title,
+        description: form.description,
+        type: form.type,
+        location: form.location,
+      });
 
-    
+      console.log("API Response:", response);
+
+      Swal.fire({
+        icon: "success",
+        title: "Job Posted!",
+        text: "Your job posting has been successfully created.",
+        timer: 3000,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/admin/jobs");
+      })
+
+      setForm({
+        title: "",
+        description: "",
+        type: "",
+        location: "",
+      });
+
+    } catch (err) {
+      setIsError(true);
+      setError(err);
+      console.error("Error creating job:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: err.message,
+        timer: 3000,
+        showConfirmButton: false,
+      });
+    }
   };
+  
 
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log("form data", form.type);
+  console.log("form data", form);
 
   return (
     <section className="py-8">

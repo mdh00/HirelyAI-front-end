@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 
 function Navigation() {
+  const { user } = useUser();
+
+  const isAdmin = user?.publicMetadata?.role === "admin";
   return (
-    <nav className="flex py-12 justify-between items-center">
+    <nav className="flex py-12 justify-between items-center border-x-0  border-2 mb-5">
     <div>
       <Link to={"/"} className="text-4xl font-medium text-underlay-1">
         HirelyAI
@@ -14,6 +17,11 @@ function Navigation() {
       <Link to="/">Home</Link>
       <div className="flex gap-x-4 items-center">
         <SignedIn>
+        {isAdmin && (
+              <Button asChild>
+                <Link to="/admin/jobs">Admin Dashboard</Link>
+              </Button>
+            )}
           <UserButton />
         </SignedIn>
         <SignedOut>
