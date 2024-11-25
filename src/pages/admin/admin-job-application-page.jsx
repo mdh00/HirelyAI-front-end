@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';  
 import { getJobApplicationById } from '@/lib/api/jobApplication';
 import { useParams } from 'react-router-dom';
-import JobApplicationCard from '@/components/shared/JobApplicationCard';
 
 function AdminJobApplicationPage() {
-  const [jobApplication, setJobApplication] = useState([]);
+  const [jobApplication, setJobApplication] = useState(null);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -18,7 +17,7 @@ function AdminJobApplicationPage() {
     }
     getJobApplicationById(params.jobApplicationId)
       .then((jobApplication) => {
-        setJobApplication(jobApplication);
+        setJobApplication(jobApplication || null);
         setIsError(false);
       })
       .catch((err) => {
@@ -26,7 +25,22 @@ function AdminJobApplicationPage() {
         setError(err);
       })
       .finally(() => setIsLoading(false));
-  }, [params._id]);
+  }, [params.jobApplicationId]);
+
+  if (isLoading) {
+    return (
+      <section className="py-8">
+        <div className="py-8 flex items-center justify-center">
+          <div className="py-8">
+            <div className="flex justify-center items-center">
+              <div className="w-12 h-12 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+            </div>
+            <p className="text-white mt-4">Loading, please wait...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
   
   const getRatingColor = (rating) => {
     switch (rating) {

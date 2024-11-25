@@ -9,7 +9,7 @@ import { getJobApplicationsForJob } from '@/lib/api/jobApplication';
 
 function AdminJobPage() {
 
-    const [job, setJob] = useState([]);
+    const [job, setJob] = useState(null);
     const [jobApplications, setJobApplications] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +38,7 @@ function AdminJobPage() {
 
         getJobApplicationsForJob(params._id)
             .then((jobApplications) => {
-                setJobApplications(jobApplications);
+                setJobApplications(jobApplications || []);
                 setIsError(false);
             })
             .catch((err) => {
@@ -49,10 +49,19 @@ function AdminJobPage() {
     }, [params._id]);
 
     if (isLoading) {
-        <div>
-            <div>Loading...</div>
-        </div>;
-    }
+        return (
+          <section className="py-8">
+            <div className="py-8 flex items-center justify-center">
+              <div className="py-8">
+                <div className="flex justify-center items-center">
+                  <div className="w-12 h-12 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+                </div>
+                <p className="text-white mt-4">Loading, please wait...</p>
+              </div>
+            </div>
+          </section>
+        );
+      }
 
     if (isError) {
         <div>
@@ -82,16 +91,22 @@ function AdminJobPage() {
             <Separator />
             <div className="py-8">
                 <h2>Job Applications</h2>
-                <div className="mt-4 flex flex-col gap-y-4">
-                    {jobApplications.map((application) => (
-                        <JobApplicationCard
-                            key={application._id}
-                            fullName={application.fullName}
-                            _id={application._id}
-                            jobId={params._id}
-                        />
-                    ))}
-                </div>
+                {jobApplications.length > 0 ? (
+                    <div className="mt-4 flex flex-col gap-y-4">
+                        {jobApplications.map((application) => (
+                            <JobApplicationCard
+                                key={application._id}
+                                fullName={application.fullName}
+                                _id={application._id}
+                                jobId={params._id}
+                            />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="mt-4">
+                        <p>No job applications found.</p>
+                    </div>
+                )}
             </div>
         </div>
     );

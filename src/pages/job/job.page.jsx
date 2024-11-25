@@ -90,7 +90,18 @@ function JobPage() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <section className="py-8">
+        <div className="py-8 flex items-center justify-center">
+          <div className="py-8">
+            <div className="flex justify-center items-center">
+              <div className="w-12 h-12 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+            </div>
+            <p className="text-white mt-4">Loading, please wait...</p>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (isError) {

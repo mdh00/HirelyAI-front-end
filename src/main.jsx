@@ -17,7 +17,7 @@ import AdminJobPage from "./pages/admin/admin-job-page";
 import AdminJobApplicationPage from "./pages/admin/admin-job-application-page";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-console.log("PUBLISHABLE_KEY:", PUBLISHABLE_KEY);
+
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key")
